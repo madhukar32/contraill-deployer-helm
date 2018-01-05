@@ -1,0 +1,40 @@
+{{/*
+Name: contrail-helper.kubernetes_spec.get_entrypoint_init_container
+Description: Template for entrypoint init container to check the dependency
+Arguements:
+  1. context
+  2. dependencies
+*/}}
+
+{{- define "contrail-helper.kubernetes_spec.get_entrypoint_init_container" -}}
+{{- $context := index . 0 -}}
+{{- $dependencies := index . 1 -}}
+- name: init
+  image: {{ $envAll.Values.images.tags.dep_check }}
+  imagePullPolicy: {{ $envAll.Values.images.pull_policy }}
+  env:
+    - name: POD_NAME
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.name
+    - name: NAMESPACE
+      valueFrom:
+        fieldRef:
+          apiVersion: v1
+          fieldPath: metadata.namespace
+    - name: INTERFACE_NAME
+      value: eth0
+    - name: DEPENDENCY_SERVICE
+      value: "{{ $dependencies.services | join ","}}"
+    - name: DEPENDENCY_JOBS
+      value: "{{ $dependencies.jobs | join ","}}"
+    - name: DEPENDENCY_DAEMONSET
+      value: "{{ $dependencies.daemonset | join ","}}"
+    - name: DEPENDENCY_CONTAINER
+      value: "{{ $dependencies.container | join ","}}"
+    - name: COMMAND
+      value: "echo \"Dependencies Resolved for pod $POD_NAME\""
+  command:
+    - kubernetes-entrypoint
+{{- end -}}
