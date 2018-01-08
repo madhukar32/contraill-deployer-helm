@@ -9,7 +9,7 @@ spec:
   template:
     metadata:
       labels:
-{ tuple $context "opencontrail" "contrail-configdb" | include "contrail-helper.kubernetes_spec.get_metadata_label" | indent 8 }}
+{{ tuple $context "opencontrail" "contrail-configdb" | include "contrail-helper.kubernetes_spec.get_metadata_label" | indent 8 }}
     spec:
       affinity:
         nodeAffinity:
@@ -26,7 +26,7 @@ spec:
         effect: NoSchedule
       hostNetwork: true
       initContainers:
- {{ tuple $context .Values.dependencies.configdb | include "contrail-helper.kubernetes_spec.get_entrypoint_init_container" | indent 8 }}
+{{ tuple $context .Values.dependencies.configdb | include "contrail-helper.kubernetes_spec.get_entrypoint_init_container" | indent 8 }}
       containers:
       - name: contrail-configdb
         image: {{ .Values.images.tags.cassandra | quote }}

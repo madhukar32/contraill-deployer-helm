@@ -9,7 +9,7 @@ spec:
   template:
     metadata:
       labels:
-{ tuple $context "opencontrail" "redis" | include "contrail-helper.kubernetes_spec.get_metadata_label" | indent 8 }}
+{{ tuple $context "opencontrail" "redis" | include "contrail-helper.kubernetes_spec.get_metadata_label" | indent 8 }}
     spec:
       affinity:
         nodeAffinity:

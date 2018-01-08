@@ -9,9 +9,15 @@ Arguements:
 {{- define "contrail-helper.kubernetes_spec.get_entrypoint_init_container" -}}
 {{- $context := index . 0 -}}
 {{- $dependencies := index . 1 -}}
+
+{{- if not $dependencies.services -}}{{- $_ := set $dependencies "services" list -}}{{- end -}}
+{{- if not $dependencies.jobs -}}{{- $_ := set $dependencies "jobs" list -}}{{- end -}}
+{{- if not $dependencies.daemonset -}}{{- $_ := set $dependencies "daemonset" list -}}{{- end -}}
+{{- if not $dependencies.container -}}{{- $_ := set $dependencies "container" list -}}{{- end -}}
+
 - name: init
-  image: {{ $envAll.Values.images.tags.dep_check }}
-  imagePullPolicy: {{ $envAll.Values.images.pull_policy }}
+  image: {{ $context.Values.images.tags.dep_check }}
+  imagePullPolicy: {{ $context.Values.images.pull_policy }}
   env:
     - name: POD_NAME
       valueFrom:
@@ -26,13 +32,13 @@ Arguements:
     - name: INTERFACE_NAME
       value: eth0
     - name: DEPENDENCY_SERVICE
-      value: "{{ $dependencies.services | join ","}}"
+      value: {{ $dependencies.services | join "," | quote}}
     - name: DEPENDENCY_JOBS
-      value: "{{ $dependencies.jobs | join ","}}"
+      value: {{ $dependencies.jobs | join "," | quote }}
     - name: DEPENDENCY_DAEMONSET
-      value: "{{ $dependencies.daemonset | join ","}}"
+      value: {{ $dependencies.daemonset | join "," | quote }}
     - name: DEPENDENCY_CONTAINER
-      value: "{{ $dependencies.container | join ","}}"
+      value: {{ $dependencies.container | join "," | quote }}
     - name: COMMAND
       value: "echo \"Dependencies Resolved for pod $POD_NAME\""
   command:
