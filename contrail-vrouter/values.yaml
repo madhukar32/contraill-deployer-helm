@@ -1,7 +1,7 @@
 images:
   tags:
-    registry: "localhost:5000"
-    contrail_version: 4.0.2.0-35
+    registry: "10.87.65.243:5000"
+    contrail_version: "5.0.0-139-newton"
     nodemgr: "contrail-nodemgr"
     agent_vrouter: "contrail-agent-vrouter"
     agent_vrouter_init_kernel: "contrail-agent-vrouter-init-kernel"
@@ -21,7 +21,7 @@ dependencies:
 conf:
   # host_os - (OPTIONAL) host operating system release. Sample values "ubuntu" and "centos". Default is ubuntu
   host_os: ubuntu
-  controller_nodes:
+  controller_nodes: 10.87.65.248
   log_level: SYS_NOTICE
 
   cloud_orchestrator: openstack
@@ -50,4 +50,4 @@ endpoints:
 
 manifests:
   configmap_env: true
-  daemonset_vrouter: true
+  daemonset_agent: true
