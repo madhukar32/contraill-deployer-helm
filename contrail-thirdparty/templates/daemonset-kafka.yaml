@@ -33,7 +33,7 @@ spec:
         imagePullPolicy: {{ default "" .Values.images.imagePullPolicy | quote }}
         env:
         - name: CONTROLLER_NODES
-          value: {{ .Values.conf.controller_nodes }}
+          value: {{ .Values.conf.controller_nodes | quote }}
         - name: ZOOKEEPER_ANALYTICS_PORT
-          value: {{ .Values.conf.zookeeper.analytics_port }}
+          value: {{ .Values.conf.analytics_zookeeper.port | quote }}
 {{- end }}

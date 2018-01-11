@@ -20,7 +20,7 @@ dependencies:
 
 conf:
   # host_os - (OPTIONAL) host operating system release. Sample values "ubuntu" and "centos". Default is ubuntu
-  host_os: ubuntu
+  host_os: centos
   controller_nodes: 10.87.65.248
   log_level: SYS_NOTICE
 
